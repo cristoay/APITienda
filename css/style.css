@@ -23,6 +23,24 @@ html, body {
   margin: 0px;
   height: 100%; }
 
+button {
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid;
+  color: #004d00; }
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  main #botones {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    width: 500px; }
+
 header {
   display: flex;
   justify-content: center;

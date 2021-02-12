@@ -1,10 +1,5 @@
-/**
- * Esta es una prueba esta es la tercera vez
- * @param {tipo} parametros 
- */
-function probando(parametros){
 
-}
+
 $("#lista").click(function (event) {
     event.preventDefault();
 
