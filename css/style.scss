@@ -59,6 +59,15 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    #ocultarForm{
+        max-height: 350px;
+        -webkit-transition: max-height 0.5s linear;
+        -moz-transition: max-height 0.5s linear;
+        -ms-transition: max-height 0.5s linear;
+        -o-transition: max-height 0.5s linear;
+        transition: max-height 0.5s linear;
+        overflow: hidden;
+    }
     #botones{
         display: flex;
         flex-direction: column;

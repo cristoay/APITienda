@@ -22,3 +22,20 @@ $("#lista").click(function (event) {
         }
     });
 });
+
+var mostrarForm = document.getElementById("mostrarForm");
+var formulario = document.getElementById("ocultarForm");
+var tamanioInicial = formulario.style.maxHeight;
+console.log(tamanioInicial);
+function increaseHeight(){
+    formulario.style.maxHeight="0px";
+    mostrarForm.removeEventListener('click',increaseHeight);
+    mostrarForm.addEventListener('click', reduceHeight);
+
+}
+function reduceHeight(){
+    formulario.style.maxHeight="350px";
+    mostrarForm.removeEventListener('click',reduceHeight);
+    mostrarForm.addEventListener('click', increaseHeight);
+}
+mostrarForm.addEventListener('click', increaseHeight);
