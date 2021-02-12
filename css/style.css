@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'AlfaSlabOne';
+  src: url("../fonts/AlfaSlabOne-Regular.ttf"); }
+
 @keyframes rotar {
   from {
     -webkit-transform: rotate(0deg);
@@ -17,6 +21,7 @@
   animation: rotar 1.5s linear infinite; }
 
 * {
+  font-family: AlfaSlabOne;
   box-sizing: border-box; }
 
 html, body {
@@ -27,7 +32,15 @@ button {
   border-radius: 5px;
   outline: none;
   border: 1px solid;
-  color: #004d00; }
+  color: #004d00;
+  background-color: #e6ffe6; }
+  button:hover {
+    background-color: #c2ffc2; }
+  button:active {
+    background-color: green;
+    color: rgba(255, 255, 255, 0.802); }
+  button:disabled {
+    color: #80ff80; }
 
 main {
   display: flex;

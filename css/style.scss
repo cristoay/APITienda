@@ -1,6 +1,14 @@
 $colorTitulo: orange;
 $bgHeader: green;
 $oscuridad:10%;
+$botonesColor:lighten($bgHeader,70%);
+$botonClaro:rgba(255, 255, 255, 0.802);
+$botonOscuro:darken($botonesColor,70%);
+
+@font-face {
+    font-family: 'AlfaSlabOne';
+    src: url("../fonts/AlfaSlabOne-Regular.ttf");
+  }
 @keyframes rotar{
     from{
         -webkit-transform: rotate(0deg);
@@ -22,6 +30,7 @@ $oscuridad:10%;
   animation: rotar 1.5s linear infinite;
 }
 *{
+    font-family: AlfaSlabOne;
     box-sizing: border-box;
 }
 html,body{
@@ -31,8 +40,19 @@ html,body{
 button{
     border-radius: 5px;
     outline: none;
-    border: 1px solid;
+    border: 1px solid ;
     color: darken($bgHeader,$oscuridad);
+    background-color: $botonesColor;
+    &:hover{
+        background-color: lighten($bgHeader,63%);
+    }
+    &:active{
+        background-color: darken($botonesColor,70%);
+        color:$botonClaro;
+    }
+    &:disabled{
+        color: lighten($botonOscuro,50%);
+    }
 }
 main {
     display: flex;
