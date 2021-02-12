@@ -16,6 +16,20 @@
   -o-animation: rotar 1.5s linear infinite;
   animation: rotar 1.5s linear infinite; }
 
+* {
+  box-sizing: border-box; }
+
+html, body {
+  margin: 0px;
+  height: 100%; }
+
+header {
+  display: flex;
+  justify-content: center;
+  background-color: #004d00; }
+  header h1 {
+    color: orange; }
+
 #formulario {
   border-radius: 10px;
   border-style: solid;
