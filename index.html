@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.0.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="mostrarForm">Nueva Tienda</p>
+    <div id="formulario">
+        <h2>Nueva empresa</h2>
+        <form>
+            <div>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Nombre de la empresa">
+            </div>
+            <div>
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Dirección de la empresa">
+            </div>
+            <div>
+                <label for="localidad">Localidad</label>
+                <input type="text" id="localidad" placeholder="Localidad de la empresa">
+            </div>
+            <div>
+
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" placeholder="Teléfono de la empresa">
+            </div>
+            <div id="boton"><button>Añadir Tienda</button></div>
+            
+        </form>
+
+    </div>
+    <div>
+        <h1>Tienda 1</h1>
+        <div>
+            <p>Direccion(<span>Localidad</span>)</p>
+        </div>
+        <p>922332233</p>
+    </div>
+    <div id="botones"></div>
+    <div id="spinnerContainer"><svg id="spinner" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+      </svg></div>
+
+      <button id="lista">Mostrar lista</button>
+      <div id="data">
+
+      </div>
+    <template id="empresaContainer">
+        <div>
+            <h1></h1>
+            <p></p>
+            <p></p>
+        </div>
+    </template>
+    <script src="./js/javascript.js"></script>
+</body>
+
+</html>

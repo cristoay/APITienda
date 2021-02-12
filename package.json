@@ -1,0 +1,26 @@
+{
+  "name": "alvaradoyanescristoconsultandoapitiendas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristoay/APITienda.git"
+  },
+  "author": "cristo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cristoay/APITienda/issues"
+  },
+  "homepage": "https://github.com/cristoay/APITienda#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "gulp": "^4.0.2",
+    "gulp-jsdoc3": "^3.0.0",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0"
+  }
+}
