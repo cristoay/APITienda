@@ -15,38 +15,8 @@
         <h1>Tiendas</h1>
     </header>
     <main>
-        <p id="mostrarForm">Nueva Tienda</p>
-        <div id="ocultarForm">
-        <div id="formulario">
-            <h2>Nueva empresa</h2>
-            <form>
-                <div>
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" placeholder="Nombre de la empresa" required>
-                    <p class="rojo"></p>
-                </div>
-                <div>
-                    <label for="direccion">Dirección</label>
-                    <input type="text" id="direccion" placeholder="Dirección de la empresa" required>
-                    <p class="rojo"></p>
-                </div>
-                <div>
-                    <label for="localidad">Localidad</label>
-                    <input type="text" id="localidad" placeholder="Localidad de la empresa" required>
-                    <p class="rojo"></p>
-                </div>
-                <div>
-    
-                    <label for="telefono">Teléfono</label>
-                    <input type="text" id="telefono" placeholder="Teléfono de la empresa" required pattern="^[689]\d{8}$">
-                    <p class="rojo"></p>
-                </div>
-                <div id="boton"><button id="aniadirTienda">Añadir Tienda</button></div>
-                
-            </form>
-    
-        </div>
-    </div>
+        
+        
         <div>
             <h1>Tienda 1</h1>
             <div>
@@ -56,20 +26,22 @@
         </div>
         <div id="botones">
             <button id="xhrButton">XHR</button>
-            <button id="jqueryButton" disabled>jQuery</button>
+            <button id="jqueryButton">jQuery</button>
             <button id="fetchButton">Fetch</button>
         </div>
-        <div id="spinnerContainer"><svg id="spinner" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-          </svg></div>
-    
-          <button id="lista">Mostrar lista</button>
-          <div id="data">
-    
-          </div>
+        <div id="spinnerContainer"><svg id="spinner" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                <path
+                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+            </svg></div>
+
+        <button id="lista">Mostrar lista</button>
+        <div id="data">
+
+        </div>
     </main>
-    
+
     <template id="empresaContainer">
         <div>
             <h1></h1>
@@ -77,6 +49,41 @@
             <p></p>
         </div>
     </template>
+    <!--<template id="templateLista">
+            <p id="mostrarForm">Nueva Tienda</p>
+        <div id="ocultarForm">
+            <div id="formulario">
+                <h2>Nueva empresa</h2>
+                <form>
+                    <div>
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" placeholder="Nombre de la empresa" required>
+                        <p class="rojo"></p>
+                    </div>
+                    <div>
+                        <label for="direccion">Dirección</label>
+                        <input type="text" id="direccion" placeholder="Dirección de la empresa" required>
+                        <p class="rojo"></p>
+                    </div>
+                    <div>
+                        <label for="localidad">Localidad</label>
+                        <input type="text" id="localidad" placeholder="Localidad de la empresa" required>
+                        <p class="rojo"></p>
+                    </div>
+                    <div>
+
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" placeholder="Teléfono de la empresa" required
+                            pattern="^[689]\d{8}$">
+                        <p class="rojo"></p>
+                    </div>
+                    <div id="boton"><button id="aniadirTienda">Añadir Tienda</button></div>
+
+                </form>
+
+            </div>
+        </div>
+        </template>-->
     <script src="./js/javascript.js"></script>
 </body>
 

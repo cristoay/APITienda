@@ -47,29 +47,31 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center; }
-  main #ocultarForm {
-    max-height: 350px;
-    -webkit-transition: max-height 0.5s linear;
-    -moz-transition: max-height 0.5s linear;
-    -ms-transition: max-height 0.5s linear;
-    -o-transition: max-height 0.5s linear;
-    transition: max-height 0.5s linear;
-    overflow: hidden; }
-    main #ocultarForm input {
-      outline: 0px; }
-    main #ocultarForm .error {
-      border: 1px solid red; }
-    main #ocultarForm .correcto {
-      border: 1px solid green; }
-    main #ocultarForm .rojo {
-      color: red;
-      font-size: 10px; }
-  main #botones {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    width: 500px; }
+
+#ocultarForm {
+  max-height: 350px;
+  -webkit-transition: max-height 0.5s linear;
+  -moz-transition: max-height 0.5s linear;
+  -ms-transition: max-height 0.5s linear;
+  -o-transition: max-height 0.5s linear;
+  transition: max-height 0.5s linear;
+  overflow: hidden; }
+  #ocultarForm input {
+    outline: 0px; }
+  #ocultarForm .error {
+    border: 1px solid red; }
+  #ocultarForm .correcto {
+    border: 1px solid green; }
+  #ocultarForm .rojo {
+    color: red;
+    font-size: 10px; }
+
+#botones {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 500px; }
 
 header {
   display: flex;
