@@ -65,6 +65,10 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center; }
+  main #cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; }
 
 #ocultarForm {
   max-height: 350px;

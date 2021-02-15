@@ -1,4 +1,12 @@
 var mostrarForm;
+//GET
+//https://weapp-210130211157.azurewebsites.net/webresources/mitienda/
+//https://weapp-210130211157.azurewebsites.net/webresources/mitienda/id
+//POST
+//https://weapp-210130211157.azurewebsites.net/webresources/mitienda/
+
+//Funcion asincrona
+
 $("#spinnerContainer").hide();
 $("#lista").click(function (event) {
     event.preventDefault();
@@ -23,15 +31,31 @@ $("#lista").click(function (event) {
         }
     });
 });
-
+/**
+ * Crear el main de la pagina 
+ */
 function crearMain(){
     var all = document.createElement("div");
     var cabecera = document.createElement("div");
+    cabecera.id="cabecera"
     var nuevaTienda = document.createElement("p");
     nuevaTienda.id ="mostrarForm";
     nuevaTienda.textContent="Nueva Tienda";
+    var buscador = document.createElement("div");
+    var idTienda = document.createElement("input");
+    idTienda.placeholder="Id de la Tienda";
+    var btnBuscador = document.createElement("button");
+    buscador.appendChild(idTienda);
+    buscador.appendChild(btnBuscador);
+    var iconBuscadorTemp = document.getElementById("buscarIcon");
+    var iconBuscador = iconBuscadorTemp.content.cloneNode(true);
+    var iconCancelarTemp = document.getElementById("cancelarIcon");
+    var iconCancelarTemp = iconCancelarTemp.content.cloneNode(true);
+    btnBuscador.appendChild(iconBuscador);
+
     cabecera.appendChild(nuevaTienda);
-    all.appendChild(nuevaTienda);
+    cabecera.appendChild(buscador);
+    all.appendChild(cabecera);
     var ocultador = document.createElement("div");
     ocultador.id="ocultarForm";
     var formul = document.createElement("div");
@@ -40,18 +64,6 @@ function crearMain(){
     titulo.textContent ="Nueva empresa";
     formul.appendChild(titulo);
     var formulariotag = document.createElement("form");
-    // var nom = document.createElement("div");
-    // var labnom = document.createElement("label");
-    // labnom.textContent="Nombre";
-    // labnom.htmlFor="nombre";
-    // var inputnom = document.createElement("input");
-    // inputnom.type="text";
-    // inputnom.id="nombre";
-    // inputnom.placeholder="Nombre de la empresa";
-    // inputnom.required = true;
-    // nom.appendChild(labnom);
-    // nom.appendChild(inputnom);
-    // nom.appendChild(error);  
     var nomdiv = crearInput("Nombre","nombre","Nombre de la empresa");
     var direcciondiv = crearInput("Dirección","direccion","Dirección de la empresa");
     var localidaddiv = crearInput("Localidad","localidad","Localidad de la empresa");
