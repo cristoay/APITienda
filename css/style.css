@@ -87,6 +87,11 @@ main {
   #ocultarForm .rojo {
     color: red;
     font-size: 10px; }
+  #ocultarForm #cargarPost {
+    display: flex;
+    flex-direction: row; }
+  #ocultarForm #baseForm {
+    width: auto; }
 
 #botones {
   display: flex;

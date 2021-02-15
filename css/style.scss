@@ -109,6 +109,13 @@ main {
         color: red;
         font-size: 10px;
     }
+    #cargarPost{
+        display: flex;
+        flex-direction: row;
+    }
+    #baseForm{
+        width: auto;
+    }
 }
 #botones{
     display: flex;

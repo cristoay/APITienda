@@ -48,11 +48,24 @@ function crearMain(){
     buscador.appendChild(idTienda);
     buscador.appendChild(btnBuscador);
     var iconBuscadorTemp = document.getElementById("buscarIcon");
+    
     var iconBuscador = iconBuscadorTemp.content.cloneNode(true);
+    console.log(iconBuscador.firstElementChild);
+    iconBuscador.firstElementChild.id="buscadorIcono";
+    //iconBuscar ocultar cuando se empieze a realizar una petición de carga
     var iconCancelarTemp = document.getElementById("cancelarIcon");
-    var iconCancelarTemp = iconCancelarTemp.content.cloneNode(true);
+    var iconCancelar = iconCancelarTemp.content.cloneNode(true);
+    iconCancelar.firstElementChild.id="cancelarIcono";
+    //iconCancelar cambiar cuando se cargue la id tienda y se haya completado la petición
+    iconCancelar.firstElementChild.style.display="none";
+    var iconLoaderTemp = document.getElementById("loaderIcon");
+    var iconLoader = iconLoaderTemp.content.cloneNode(true);
+    iconLoader.firstElementChild.id="loaderIcono";
+    //iconLoader poner cuando se realize la carga de la busqueda de la tienda por id 
+    iconLoader.firstElementChild.style.display="none";
     btnBuscador.appendChild(iconBuscador);
-
+    btnBuscador.appendChild(iconCancelar);
+    btnBuscador.appendChild(iconLoader);
     cabecera.appendChild(nuevaTienda);
     cabecera.appendChild(buscador);
     all.appendChild(cabecera);
@@ -73,7 +86,22 @@ function crearMain(){
     botondiv.id = "boton";
     var boton = document.createElement("button");
     boton.id = "aniadirTienda";
-    boton.textContent="Añadir Tienda";
+    var cargarForm = document.createElement("div");
+    cargarForm.id="cargarPost";
+    var cargandoForm = document.createElement("div");
+    cargandoForm.id="cargandoPost";
+    cargandoForm.textContent="Cargando";
+    var baseForm = document.createElement("div");
+    baseForm.id="baseForm";
+    baseForm.textContent="Añadir tienda";
+    var iconLoaderForm = iconLoaderTemp.content.cloneNode(true);
+    iconLoaderForm.firstElementChild.id="loaderIcono";
+    cargarForm.appendChild(iconLoaderForm);
+    cargarForm.appendChild(cargandoForm);
+    boton.appendChild(cargarForm);
+    //carform boton del formulario para dar feedback mientras se envia la peticion
+    cargarForm.style.display="none";
+    boton.appendChild(baseForm);
     botondiv.appendChild(boton);
     formulariotag.appendChild(nomdiv);
     formulariotag.appendChild(direcciondiv);
