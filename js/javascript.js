@@ -136,9 +136,9 @@ function crearInput(contenido , id , placeholder){
 
 var template = document.getElementById("templateLista");
 var principal = document.getElementsByTagName("main");
-document.getElementById("jqueryButton").addEventListener("click", loadjquery);
+document.getElementById("jqueryButton").addEventListener("click", cargarTodojquery);
 function loadjquery() {
-    borrarMain();
+    
     crearMain();
     mostrarForm = document.getElementById("mostrarForm");
     console.log(mostrarForm);
@@ -172,6 +172,28 @@ function loadjquery() {
         telefono.dispatchEvent(event);
     })
 
+}
+function cargarTodojquery(){
+    borrarMain();
+    $("#spinnerContainerMain").show();
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+
+        success: function (data) {
+            $("#spinnerContainerMain").hide();
+            console.log("response:" + JSON.stringify(data));
+            $.each(data, function (j, pdata) {
+                console.log(pdata);
+            });
+            loadjquery();
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(' Error in processing! ' + textStatus);
+        }
+    });
 }
 
 function increaseHeight() {
