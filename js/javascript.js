@@ -110,7 +110,10 @@ function crearMain(){
     formulariotag.appendChild(botondiv);
     formul.appendChild(formulariotag);
     ocultador.appendChild(formul);
+    var result = document.createElement("div");
+    result.id="resultados";
     all.appendChild(ocultador);
+    all.appendChild(result);
     document.getElementsByTagName("main")[0].appendChild(all);
 
 }
@@ -176,6 +179,36 @@ function loadjquery() {
 function cargarTodojquery(){
     borrarMain();
     $("#spinnerContainerMain").show();
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+
+        success: function (data) {
+            loadjquery();
+            $("#spinnerContainerMain").hide();
+            console.log("response:" + JSON.stringify(data));
+            $.each(data, function (j, pdata) {
+                var empresaTemp = document.getElementById("empresaContainer");
+                var empr = empresaTemp.content.cloneNode(true);
+                console.log(empr.firstElementChild)
+                empr.firstElementChild.firstElementChild.textContent=pdata.nombreTienda;
+                empr.firstElementChild.firstElementChild.nextElementSibling.textContent=pdata.direccion+"("+pdata.localidad+")";
+                empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent=pdata.telefono;
+                console.log(pdata);
+                document.getElementById("resultados").appendChild(empr);
+            });
+            
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(' Error in processing! ' + textStatus);
+        }
+    });
+}
+function cargarIdjquery(){
+    $("#buscadorIcono").hide();
+   // $("#")
     $.ajax({
         type: "GET",
         dataType: "json",

@@ -47,6 +47,15 @@ html, body {
   margin: 0px;
   height: 100%; }
 
+#resultados {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px; }
+  #resultados .empresa {
+    border-style: solid;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #000000; }
+
 button {
   border-radius: 5px;
   outline: none;
