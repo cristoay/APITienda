@@ -79,9 +79,13 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between; }
+  main #botones {
+    margin: 0;
+    position: absolute;
+    top: 50%; }
 
 #ocultarForm {
-  max-height: 350px;
+  max-height: 0px;
   -webkit-transition: max-height 0.5s linear;
   -moz-transition: max-height 0.5s linear;
   -ms-transition: max-height 0.5s linear;
