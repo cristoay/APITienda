@@ -8,29 +8,7 @@ var mostrarForm;
 //Funcion asincrona
 
 $("#spinnerContainer").hide();
-$("#lista").click(function (event) {
-    event.preventDefault();
-    $("#spinnerContainer").show();
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "http://localhost:8080/EmprInfRs_AlvaradoCristo/webresources/tienda",
-
-        success: function (data) {
-            $("#spinnerContainer").hide();
-            $("#data").empty();
-            console.log("response:" + JSON.stringify(data));
-            $.each(data, function (j, pdata) {
-                $("#data").append("<li>" + pdata.NombreTienda + "</li>");
-
-            });
-
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(' Error in processing! ' + textStatus);
-        }
-    });
-});
+var sendForm ;
 /**
  * Crear el main de la pagina 
  */
@@ -84,7 +62,7 @@ function crearMain() {
     var direcciondiv = crearInput("Dirección", "direccion", "Dirección de la empresa");
     var localidaddiv = crearInput("Localidad", "localidad", "Localidad de la empresa");
     var telefonodiv = crearInput("Teléfono", "telefono", "Teléfono de la empresa");
-    telefonodiv.firstElementChild.nextElementSibling.pattern = "^[689]\d{8}$";
+    telefonodiv.firstElementChild.nextElementSibling.pattern = "^[689]\\d{8}$";
     var botondiv = document.createElement("div");
     botondiv.id = "boton";
     var boton = document.createElement("button");
@@ -168,6 +146,7 @@ function loadjquery() {
 
     document.getElementById("aniadirTienda").addEventListener("click", function (e) {
         e.preventDefault();
+        sendForm = true;
         var event = new Event('input', {
             'bubbles': true,
             'cancelable': true
@@ -176,6 +155,12 @@ function loadjquery() {
         direccion.dispatchEvent(event);
         localidad.dispatchEvent(event);
         telefono.dispatchEvent(event);
+        if(sendForm==true){
+            console.log("El formulario es correcto para enviar ");
+            postJquery();
+        }else{
+            console.log("El formulario no se enviara");
+        }
     })
 
 }
@@ -265,6 +250,34 @@ function cargarIdjquery() {
     btnCancelar.removeEventListener("click",cargarIdjquery);
     btnCancelar.addEventListener("click", cargarTodojquery);
 }
+function postJquery(){
+    var data = {nombreTienda: $("#nombre").val(), direccion: $("#direccion").val(), localidad: $("#localidad").val(), telefono: $("#telefono").val()};
+    console.log(JSON.stringify(data));
+    $("#baseForm").hide();
+    $("#cargarPost").show();
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: 'POST',
+        url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+        data: JSON.stringify(data),
+        //en este caso
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (response) {
+            //codigo de exito
+            console.log("se ha insertado la tienda");
+            console.log(JSON.stringify(data));
+            cargarTodojquery();
+        },
+        error: function (error) {
+            //codigo error
+            console.log("No se ha podido enviar la tienda")
+        }
+    });
+}
 
 function increaseHeight() {
     var formulario = document.getElementById("ocultarForm");
@@ -291,12 +304,16 @@ function comprobarTelefono(e) {
     console.log(e.target);
     if (e.target.validity.valueMissing) {
         campoObligatorio(e.target);
+        sendForm=false;
     } else if (e.target.validity.patternMismatch) {
         e.target.nextElementSibling.textContent = "Debe de poner un número que comienze por 6, 8, 9 de nueve cifras";
         error(e.target);
+        sendForm=false;
     } else {
+        console.log("El telefono es correcto")
         e.target.nextElementSibling.textContent = "";
         correcto(e.target);
+        
     }
 
 }
@@ -323,6 +340,7 @@ function correcto(input) {
 function comprobar(e) {
     if (e.target.validity.valueMissing) {
         campoObligatorio(e.target);
+        sendForm=false;
     }
     else {
         e.target.nextElementSibling.textContent = "";
