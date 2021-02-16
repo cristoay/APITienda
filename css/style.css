@@ -52,9 +52,11 @@ html, body {
   flex-direction: column;
   row-gap: 10px; }
   #resultados .empresa {
-    border-style: solid;
+    padding: 5px;
     border-radius: 5px;
-    box-shadow: 0 0 10px #000000; }
+    box-shadow: 0 0 10px #004d00; }
+    #resultados .empresa h1 {
+      color: #004d00; }
 
 button {
   border-radius: 5px;
@@ -79,6 +81,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between; }
+    main #cabecera p {
+      color: #004d00; }
   main #botones {
     margin: 0;
     position: absolute;
@@ -91,7 +95,8 @@ main {
   -ms-transition: max-height 0.5s linear;
   -o-transition: max-height 0.5s linear;
   transition: max-height 0.5s linear;
-  overflow: hidden; }
+  overflow: hidden;
+  margin-bottom: 10px; }
   #ocultarForm input {
     outline: 0px; }
   #ocultarForm .error {
@@ -123,8 +128,12 @@ header {
 
 #formulario {
   border-radius: 10px;
+  padding: 5px;
   border-style: solid;
+  border-color: #004d00;
   transition: height 0.5s; }
+  #formulario h2 {
+    color: #004d00; }
   #formulario form {
     display: flex;
     flex-wrap: wrap; }

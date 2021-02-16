@@ -4,6 +4,9 @@ $oscuridad:10%;
 $botonesColor:lighten($bgHeader,70%);
 $botonClaro:rgba(255, 255, 255, 0.802);
 $botonOscuro:darken($botonesColor,70%);
+$error : red;
+$correcto : green;
+
 
 @font-face {
     font-family: 'AlfaSlabOne';
@@ -62,9 +65,13 @@ html,body{
     flex-direction: column;
     row-gap: 10px;
     .empresa{
-        border-style: solid;
+        padding: 5px;
+        
         border-radius: 5px;
-        box-shadow: 0 0 10px #000000;
+        box-shadow: 0 0 10px darken($bgHeader,$oscuridad);
+        h1{
+            color: darken($bgHeader,$oscuridad);
+        }
     }
 }
 
@@ -94,6 +101,9 @@ main {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        p{
+            color: darken($bgHeader,$oscuridad);
+        }
     }
     #botones{
         margin: 0;
@@ -110,17 +120,18 @@ main {
     -o-transition: max-height 0.5s linear;
     transition: max-height 0.5s linear;
     overflow: hidden;
+    margin-bottom: 10px;
     input{
         outline: 0px;
     }
     .error{
-        border: 1px solid red;
+        border: 1px solid $error;
     }
     .correcto{
-        border: 1px solid green;
+        border: 1px solid $correcto;
     }
     .rojo{
-        color: red;
+        color: $error;
         font-size: 10px;
     }
     #cargarPost{
@@ -148,8 +159,13 @@ header{
 }
 #formulario{
     border-radius: 10px;
+    padding: 5px;
     border-style: solid;
+    border-color:darken($bgHeader,$oscuridad);;
     transition: height 0.5s;
+    h2{
+        color: darken($bgHeader,$oscuridad);
+    }
     form{
         display: flex;
         flex-wrap: wrap;

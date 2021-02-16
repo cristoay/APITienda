@@ -1,10 +1,8 @@
 var mostrarForm;
 var formaEnvio;
-
 var urlRestApi = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
 
 
-//Funcion asincrona
 
 $("#spinnerContainer").hide();
 var sendForm;
@@ -107,7 +105,12 @@ function crearMain() {
     document.getElementsByTagName("main")[0].appendChild(all);
 
 }
-
+/**
+ * Crea input para formulario con mensaje de error
+ * @param {*} contenido 
+ * @param {*} id 
+ * @param {*} placeholder 
+ */
 function crearInput(contenido, id, placeholder) {
     var div = document.createElement("div");
     var error = document.createElement("p");
@@ -132,6 +135,9 @@ var principal = document.getElementsByTagName("main");
 document.getElementById("jqueryButton").addEventListener("click", cargarTodojquery);
 document.getElementById("xhrButton").addEventListener("click", cargarTodoXhr);
 document.getElementById("fetchButton").addEventListener("click", cargarTodoFetch);
+/**
+ * Realiza la carga de todas las tiendas mediante Fetch
+ */
 function cargarTodoFetch() {
     console.log("Se usa fetch");
     formaEnvio = "fetch";
@@ -154,6 +160,9 @@ function cargarTodoFetch() {
         });
     console.log("Se ha cargado con fetch");
 }
+/**
+ * Realiza la carga de una tienda segun su id mediante Fetch
+ */
 function cargarIdFetch() {
     console.log("Se usa fetch");
     document.getElementById("buscadorIcono").style.display = "none";
@@ -195,6 +204,10 @@ function cargarIdFetch() {
             btnCancelar.addEventListener("click", cargarTodoFetch);
         })
 }
+
+/**
+ * Realiza el post de una tienda mediante Fetch
+ */
 function postFetch() {
     console.log("Se usa fetch");
     var iNombre = document.getElementById("nombre").value;
@@ -212,12 +225,17 @@ function postFetch() {
     }
     document.getElementById("baseForm").style.display = "none";
     document.getElementById("cargarPost").style.display = "flex";
-    document.getElementById("aniadirTienda").disabled="true";
+    document.getElementById("aniadirTienda").disabled=true;
     // send post request
-    fetch(urlRestApi, options);
-    cargarTodoFetch();
-
+    fetch(urlRestApi, options).then(
+        ()=>{
+            cargarTodoFetch();
+        }
+    );
 }
+/**
+ * Realiza la carga de todas las tiendas mediante Xhr
+ */
 function cargarTodoXhr() {
     console.log("Se usa xhr");
     formaEnvio = "xhr";
@@ -250,6 +268,9 @@ function cargarTodoXhr() {
     xhr.send();
     console.log("se ha cargado con xhr")
 }
+/**
+ * Realiza la carga de una tienda mediante Xhr
+ */
 function cargarIdXhr() {
     console.log("Se usa xhr");
     const xhr = new XMLHttpRequest();
@@ -310,6 +331,9 @@ function cargarIdXhr() {
     xhr.send();
 
 }
+/**
+ * Realiza el post de una tienda mediante Xhr
+ */
 function postXhr() {
     console.log("Se usa xhr");
     const xhr = new XMLHttpRequest();
@@ -322,7 +346,7 @@ function postXhr() {
     xhr.onreadystatechange = () => {
         document.getElementById("baseForm").style.display = "none";
         document.getElementById("cargarPost").style.display = "flex";
-        document.getElementById("aniadirTienda").disabled="true";
+        document.getElementById("aniadirTienda").disabled=true;
 
     };
     var data = { nombreTienda: iNombre, direccion: iDireccion, localidad: iLocalidad, telefono: iTelefono };
@@ -337,6 +361,9 @@ function postXhr() {
     cargarTodoXhr();
 
 }
+/**
+ * Realiza la carga de toda la página y le añade al formulario la funcionalidad
+ */
 function loadAll() {
 
     crearMain();
@@ -390,6 +417,9 @@ function loadAll() {
     })
 
 }
+/**
+ * Realiza la carga de todas las tiendas mediante Jquery
+ */
 function cargarTodojquery() {
     console.log("Se usa jquery");
     formaEnvio = "jquery";
@@ -424,6 +454,9 @@ function cargarTodojquery() {
     });
 
 }
+/**
+ * Realiza la carga de una tienda mediante Jquery
+ */
 function cargarIdjquery() {
     console.log("Se usa jquery");
     $("#buscadorIcono").hide();
@@ -480,6 +513,10 @@ function cargarIdjquery() {
     btnCancelar.removeEventListener("click", cargarIdjquery);
     btnCancelar.addEventListener("click", cargarTodojquery);
 }
+
+/**
+ * Realiza el post de una tienda mediante Jquery
+ */
 function postJquery() {
     console.log("Se usa jquery");
     var data = { nombreTienda: $("#nombre").val(), direccion: $("#direccion").val(), localidad: $("#localidad").val(), telefono: $("#telefono").val() };
@@ -511,7 +548,9 @@ function postJquery() {
         }
     });
 }
-
+/**
+ * Incrementa el tamaño del div que contiene el formulario para mostrarlo
+ */
 function increaseHeight() {
     var formulario = document.getElementById("ocultarForm");
     formulario.style.maxHeight = "350px";
@@ -519,19 +558,27 @@ function increaseHeight() {
     mostrarForm.addEventListener('click', reduceHeight);
 
 }
+/**
+ * Reduce el tamaño del div que contiene el formulario para ocultarlo
+ */
 function reduceHeight() {
     var formulario = document.getElementById("ocultarForm");
     formulario.style.maxHeight = "0px";
     mostrarForm.removeEventListener('click', reduceHeight);
     mostrarForm.addEventListener('click', increaseHeight);
 }
-
+/**
+ * Borra todo el contenido del main
+ */
 function borrarMain() {
     while (document.getElementsByTagName("main")[0].firstChild) {
         document.getElementsByTagName("main")[0].firstChild.remove()
     }
 }
-
+/**
+ * Comprueba que el número de teléfono sea valido
+ * @param {*} e Evento que activa la funcion
+ */
 
 function comprobarTelefono(e) {
     console.log(e.target);
@@ -550,25 +597,37 @@ function comprobarTelefono(e) {
     }
 
 }
-
+/**
+ * Comprueba que el input no esta vacio
+ * @param {*} input Input que se analiza para ver si es valido
+ */
 function campoObligatorio(input) {
     input.nextElementSibling.textContent = "Campo obligatorio";
     error(input);
 }
-
+/**
+ * Marca el input erroneo y da pistas de que error se ha cometido
+ * @param {*} input Input que se debe marcar como erroneo
+ */
 function error(input) {
     input.classList.add("error");
     input.classList.remove("correcto");
     console.log("Aqui se pone la variable global como falsa" + input.value);
     console.log(input);
 }
+/**
+ * Marca el input como correcto
+ * @param {*} input Input correcto
+ */
 function correcto(input) {
     input.classList.add("correcto");
     input.classList.remove("error");
 
 }
-
-
+/**
+ * Comprueba el input
+ * @param {*} e Evento que activa la función
+ */
 
 function comprobar(e) {
     if (e.target.validity.valueMissing) {
