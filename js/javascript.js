@@ -1,15 +1,13 @@
 var mostrarForm;
 var formaEnvio;
-//GET
-//https://weapp-210130211157.azurewebsites.net/webresources/mitienda/
-//https://weapp-210130211157.azurewebsites.net/webresources/mitienda/id
-//POST
-//https://weapp-210130211157.azurewebsites.net/webresources/mitienda/
+
+var urlRestApi = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
+
 
 //Funcion asincrona
 
 $("#spinnerContainer").hide();
-var sendForm ;
+var sendForm;
 /**
  * Crear el main de la pagina 
  */
@@ -25,15 +23,18 @@ function crearMain() {
     idTienda.placeholder = "Id de la Tienda";
     idTienda.id = "inputIdTienda";
     var btnBuscador = document.createElement("button");
-    if(formaEnvio =="jquery"){
+    if (formaEnvio == "jquery") {
         console.log("Se pone como jquery");
         btnBuscador.addEventListener("click", cargarIdjquery);
-    }else if(formaEnvio =="xhr"){
+    } else if (formaEnvio == "xhr") {
         console.log("Se pone como xhr");
         btnBuscador.addEventListener("click", cargarIdXhr);
+    } else if (formaEnvio == "fetch") {
+        console.log("Se pone como fetch");
+        btnBuscador.addEventListener("click", cargarIdFetch);
     }
-    
-    btnBuscador.id="find"
+
+    btnBuscador.id = "find"
     buscador.appendChild(idTienda);
     buscador.appendChild(btnBuscador);
     var iconBuscadorTemp = document.getElementById("buscarIcon");
@@ -129,124 +130,212 @@ function crearInput(contenido, id, placeholder) {
 var template = document.getElementById("templateLista");
 var principal = document.getElementsByTagName("main");
 document.getElementById("jqueryButton").addEventListener("click", cargarTodojquery);
-document.getElementById("xhrButton").addEventListener("click",cargarTodoXhr);
-
-function cargarTodoXhr(){
-    formaEnvio ="xhr";
-    const xhr = new XMLHttpRequest();
+document.getElementById("xhrButton").addEventListener("click", cargarTodoXhr);
+document.getElementById("fetchButton").addEventListener("click", cargarTodoFetch);
+function cargarTodoFetch() {
+    console.log("Se usa fetch");
+    formaEnvio = "fetch";
     borrarMain();
-    document.getElementById("spinnerContainerMain").style.display="block";
-    //$("#spinnerContainerMain").show();
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            try{
+    document.getElementById("spinnerContainerMain").style.display = "block";
+    fetch(urlRestApi)
+        .then(function (response) {
+            response.json().then(function (data) {
                 loadAll();
-                document.getElementById("spinnerContainerMain").style.display="none";
-                //$("#spinnerContainerMain").hide();
-                const objeto = JSON.parse(this.responseText);
-                objeto.forEach(element => {
+                document.getElementById("spinnerContainerMain").style.display = "none";
+                data.forEach(element => {
                     var empresaTemp = document.getElementById("empresaContainer");
-                var empr = empresaTemp.content.cloneNode(true);
-                empr.firstElementChild.firstElementChild.textContent = element.nombreTienda;
-                empr.firstElementChild.firstElementChild.nextElementSibling.textContent = element.direccion + "(" + element.localidad + ")";
-                empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = element.telefono;
-                document.getElementById("resultados").appendChild(empr);
-                });
-                
-            }catch(e){
-                console.log("error en el parseo del json");
-            }
-        }
-    }
-    xhr.open('get','https://webapp-210130211157.azurewebsites.net/webresources/mitienda/');
-    xhr.send();
-    console.log("se ha cargado con xhr")
+                    var empr = empresaTemp.content.cloneNode(true);
+                    empr.firstElementChild.firstElementChild.textContent = element.nombreTienda;
+                    empr.firstElementChild.firstElementChild.nextElementSibling.textContent = element.direccion + "(" + element.localidad + ")";
+                    empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = element.telefono;
+                    document.getElementById("resultados").appendChild(empr);
+                })
+            })
+        });
+    console.log("Se ha cargado con fetch");
 }
-function cargarIdXhr(){
-    const xhr = new XMLHttpRequest();
-    document.getElementById("buscadorIcono").style.display="none";
-    document.getElementById("loaderIcono").style.display="block";
+function cargarIdFetch() {
+    console.log("Se usa fetch");
+    document.getElementById("buscadorIcono").style.display = "none";
+    document.getElementById("loaderIcono").style.display = "block";
     while (document.getElementById("resultados").firstChild) {
         document.getElementById("resultados").firstChild.remove()
     }
     var valor = document.getElementById("inputIdTienda");
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            try{
-                document.getElementById("loaderIcono").style.display="none";
-                document.getElementById("cancelarIcono").style.display="block";
+    fetch(urlRestApi + valor.value)
+        .then(function (response) {
+            if (response.status == 204) {
+                var notFound = document.createElement("h1");
+                notFound.textContent = "No se ha encontrado la tienda";
+                document.getElementById("resultados").appendChild(notFound);
+
+            } else {
+                response.json().then(function (data) {
+                    console.log(data.length);
+                    if (data.length === undefined) {
+                        var empresaTemp = document.getElementById("empresaContainer");
+                        var empr = empresaTemp.content.cloneNode(true);
+                        empr.firstElementChild.firstElementChild.textContent = data.nombreTienda;
+                        empr.firstElementChild.firstElementChild.nextElementSibling.textContent = data.direccion + "(" + data.localidad + ")";
+                        empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = data.telefono;
+                        document.getElementById("resultados").appendChild(empr);
+                    } else {
+                        var notFound = document.createElement("h1");
+                        notFound.textContent = "Insertar un id antes de usar el botón de busqueda"
+                        document.getElementById("resultados").appendChild(notFound);
+                    }
+
+
+                })
+            }
+            document.getElementById("loaderIcono").style.display = "none";
+            document.getElementById("cancelarIcono").style.display = "block";
+            var btnCancelar = document.getElementById("find");
+            btnCancelar.removeEventListener("click", cargarIdFetch);
+            btnCancelar.addEventListener("click", cargarTodoFetch);
+        })
+}
+function postFetch() {
+    console.log("Se usa fetch");
+    var iNombre = document.getElementById("nombre").value;
+    var iDireccion = document.getElementById("direccion").value;
+    var iLocalidad = document.getElementById("localidad").value;
+    var iTelefono = document.getElementById("telefono").value;
+
+    var data = { nombreTienda: iNombre, direccion: iDireccion, localidad: iLocalidad, telefono: iTelefono };
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    document.getElementById("baseForm").style.display = "none";
+    document.getElementById("cargarPost").style.display = "flex";
+    document.getElementById("aniadirTienda").disabled="true";
+    // send post request
+    fetch(urlRestApi, options);
+    cargarTodoFetch();
+
+}
+function cargarTodoXhr() {
+    console.log("Se usa xhr");
+    formaEnvio = "xhr";
+    const xhr = new XMLHttpRequest();
+    borrarMain();
+    document.getElementById("spinnerContainerMain").style.display = "block";
+    //$("#spinnerContainerMain").show();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            try {
+                loadAll();
+                document.getElementById("spinnerContainerMain").style.display = "none";
+                //$("#spinnerContainerMain").hide();
+                const objeto = JSON.parse(this.responseText);
+                objeto.forEach(element => {
+                    var empresaTemp = document.getElementById("empresaContainer");
+                    var empr = empresaTemp.content.cloneNode(true);
+                    empr.firstElementChild.firstElementChild.textContent = element.nombreTienda;
+                    empr.firstElementChild.firstElementChild.nextElementSibling.textContent = element.direccion + "(" + element.localidad + ")";
+                    empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = element.telefono;
+                    document.getElementById("resultados").appendChild(empr);
+                });
+
+            } catch (e) {
+                console.log("error en el parseo del json");
+            }
+        }
+    }
+    xhr.open('get', urlRestApi);
+    xhr.send();
+    console.log("se ha cargado con xhr")
+}
+function cargarIdXhr() {
+    console.log("Se usa xhr");
+    const xhr = new XMLHttpRequest();
+    document.getElementById("buscadorIcono").style.display = "none";
+    document.getElementById("loaderIcono").style.display = "block";
+    while (document.getElementById("resultados").firstChild) {
+        document.getElementById("resultados").firstChild.remove()
+    }
+    var valor = document.getElementById("inputIdTienda");
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            try {
+                document.getElementById("loaderIcono").style.display = "none";
+                document.getElementById("cancelarIcono").style.display = "block";
                 const objeto = JSON.parse(this.responseText);
                 console.log(objeto);
                 console.log();
                 var tmnTienda = 5;
-            if (Object.keys(objeto).length>tmnTienda) {
-                var notFound = document.createElement("h1");
-                notFound.textContent = "Insertar un id antes de usar el botón de busqueda"
-                document.getElementById("resultados").appendChild(notFound);
-                console.log("Se muestra aqui de alguna manera?")
+                if (Object.keys(objeto).length > tmnTienda) {
+                    var notFound = document.createElement("h1");
+                    notFound.textContent = "Insertar un id antes de usar el botón de busqueda"
+                    document.getElementById("resultados").appendChild(notFound);
+                    console.log("Se muestra aqui de alguna manera?")
 
-            } else{
-                var empresaTemp = document.getElementById("empresaContainer");
-                var empr = empresaTemp.content.cloneNode(true);
-                //console.log(empr.firstElementChild)
-                empr.firstElementChild.firstElementChild.textContent = objeto.nombreTienda;
-                empr.firstElementChild.firstElementChild.nextElementSibling.textContent = objeto.direccion + "(" + objeto.localidad + ")";
-                empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = objeto.telefono;
-                //console.log(pdata);
-                document.getElementById("resultados").appendChild(empr);
-                
-            }
-            }catch(e){
+                } else {
+                    var empresaTemp = document.getElementById("empresaContainer");
+                    var empr = empresaTemp.content.cloneNode(true);
+                    //console.log(empr.firstElementChild)
+                    empr.firstElementChild.firstElementChild.textContent = objeto.nombreTienda;
+                    empr.firstElementChild.firstElementChild.nextElementSibling.textContent = objeto.direccion + "(" + objeto.localidad + ")";
+                    empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = objeto.telefono;
+                    //console.log(pdata);
+                    document.getElementById("resultados").appendChild(empr);
+
+                }
+            } catch (e) {
                 console.log("error en el parseo del json");
             }
-        }else if( this.readyState == 4 && this.status == 204 ){
+        } else if (this.readyState == 4 && this.status == 204) {
             var notFound = document.createElement("h1");
-                notFound.textContent = "Tienda no encontrada"
-                document.getElementById("resultados").appendChild(notFound);
-                document.getElementById("loaderIcono").style.display="none";
-                document.getElementById("cancelarIcono").style.display="block";
-                
-        }else if (this.readyState == 4 && this.status == 404){
+            notFound.textContent = "Tienda no encontrada"
+            document.getElementById("resultados").appendChild(notFound);
+            document.getElementById("loaderIcono").style.display = "none";
+            document.getElementById("cancelarIcono").style.display = "block";
+
+        } else if (this.readyState == 4 && this.status == 404) {
             var notFound = document.createElement("h1");
-                notFound.textContent = "Tienda no encontrada"
-                document.getElementById("resultados").appendChild(notFound);
-                document.getElementById("loaderIcono").style.display="none";
-                document.getElementById("cancelarIcono").style.display="block";
+            notFound.textContent = "Tienda no encontrada"
+            document.getElementById("resultados").appendChild(notFound);
+            document.getElementById("loaderIcono").style.display = "none";
+            document.getElementById("cancelarIcono").style.display = "block";
         }
     }
     var btnCancelar = document.getElementById("find");
-    btnCancelar.removeEventListener("click",cargarIdXhr);
+    btnCancelar.removeEventListener("click", cargarIdXhr);
     btnCancelar.addEventListener("click", cargarTodoXhr);
-    xhr.open('get','https://webapp-210130211157.azurewebsites.net/webresources/mitienda/'+valor.value);
+    xhr.open('get', urlRestApi + valor.value);
     xhr.send();
-    
+
 }
-function postXhr(){
+function postXhr() {
+    console.log("Se usa xhr");
     const xhr = new XMLHttpRequest();
     var iNombre = document.getElementById("nombre").value;
     var iDireccion = document.getElementById("direccion").value;
     var iLocalidad = document.getElementById("localidad").value;
     var iTelefono = document.getElementById("telefono").value;
-// listen for `load` event
-xhr.onload = () => {
 
-    // print JSON response
-    if (xhr.status >= 200 && xhr.status < 300) {
-        // parse JSON
-        //const response = JSON.parse(xhr.responseText);
-        //console.log(response);
-    }
-};
-var data = {nombreTienda: iNombre, direccion: iDireccion, localidad: iLocalidad, telefono: iTelefono};
-// create a JSON object
+    // listen for `load` event
+    xhr.onreadystatechange = () => {
+        document.getElementById("baseForm").style.display = "none";
+        document.getElementById("cargarPost").style.display = "flex";
+        document.getElementById("aniadirTienda").disabled="true";
+
+    };
+    var data = { nombreTienda: iNombre, direccion: iDireccion, localidad: iLocalidad, telefono: iTelefono };
+    // create a JSON object
 
 
-xhr.open('POST', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/');
+    xhr.open('POST', urlRestApi);
 
-xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
-xhr.send(JSON.stringify(data));
-cargarTodoXhr();
+    xhr.send(JSON.stringify(data));
+    cargarTodoXhr();
+
 }
 function loadAll() {
 
@@ -282,43 +371,47 @@ function loadAll() {
         direccion.dispatchEvent(event);
         localidad.dispatchEvent(event);
         telefono.dispatchEvent(event);
-        if(sendForm==true){
+        if (sendForm == true) {
             console.log("El formulario es correcto para enviar ");
-            if(formaEnvio=="jquery"){
+            if (formaEnvio == "jquery") {
                 postJquery();
                 console.log("Post mediante jquery")
-            }else if (formaEnvio="xhr"){
+            } else if (formaEnvio == "xhr") {
                 postXhr();
                 console.log("Post mediante xhr");
+            } else if (formaEnvio == "fetch") {
+                postFetch();
+                console.log("Post mediante Fetch");
             }
-            
-        }else{
+
+        } else {
             console.log("El formulario no se enviara");
         }
     })
 
 }
 function cargarTodojquery() {
+    console.log("Se usa jquery");
     formaEnvio = "jquery";
     borrarMain();
     $("#spinnerContainerMain").show();
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+        url: urlRestApi,
 
         success: function (data) {
             loadAll();
             $("#spinnerContainerMain").hide();
-            
+
             $.each(data, function (j, pdata) {
                 var empresaTemp = document.getElementById("empresaContainer");
                 var empr = empresaTemp.content.cloneNode(true);
-                
+
                 empr.firstElementChild.firstElementChild.textContent = pdata.nombreTienda;
                 empr.firstElementChild.firstElementChild.nextElementSibling.textContent = pdata.direccion + "(" + pdata.localidad + ")";
                 empr.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent = pdata.telefono;
-                
+
                 document.getElementById("resultados").appendChild(empr);
             });
 
@@ -327,11 +420,12 @@ function cargarTodojquery() {
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(' Error in processing! ' + textStatus);
         }
-        
+
     });
-    
+
 }
 function cargarIdjquery() {
+    console.log("Se usa jquery");
     $("#buscadorIcono").hide();
     $("#loaderIcono").show();
     $("#resultados").empty();
@@ -340,7 +434,7 @@ function cargarIdjquery() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/" + valor.value,
+        url: urlRestApi + valor.value,
 
         success: function (data) {
             $("#loaderIcono").hide();
@@ -351,13 +445,13 @@ function cargarIdjquery() {
                 notFound.textContent = "Tienda no encontrada"
                 document.getElementById("resultados").appendChild(notFound);
 
-            } else if (data.length){
+            } else if (data.length) {
                 var notFound = document.createElement("h1");
                 console.log("Se esta ahciendo algo aqui?")
                 notFound.textContent = "Insertar un id antes de usar el botón de busqueda"
                 document.getElementById("resultados").appendChild(notFound);
             }
-                else{
+            else {
                 console.log(data.length);
                 console.log(data);
                 var empresaTemp = document.getElementById("empresaContainer");
@@ -383,21 +477,24 @@ function cargarIdjquery() {
         }
     });
     var btnCancelar = document.getElementById("find");
-    btnCancelar.removeEventListener("click",cargarIdjquery);
+    btnCancelar.removeEventListener("click", cargarIdjquery);
     btnCancelar.addEventListener("click", cargarTodojquery);
 }
-function postJquery(){
-    var data = {nombreTienda: $("#nombre").val(), direccion: $("#direccion").val(), localidad: $("#localidad").val(), telefono: $("#telefono").val()};
+function postJquery() {
+    console.log("Se usa jquery");
+    var data = { nombreTienda: $("#nombre").val(), direccion: $("#direccion").val(), localidad: $("#localidad").val(), telefono: $("#telefono").val() };
     console.log(JSON.stringify(data));
     $("#baseForm").hide();
     $("#cargarPost").show();
+    $("#aniaadirTienda".disabled="true");
+    
     $.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         type: 'POST',
-        url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+        url: urlRestApi,
         data: JSON.stringify(data),
         //en este caso
         contentType: 'application/json',
@@ -440,16 +537,16 @@ function comprobarTelefono(e) {
     console.log(e.target);
     if (e.target.validity.valueMissing) {
         campoObligatorio(e.target);
-        sendForm=false;
+        sendForm = false;
     } else if (e.target.validity.patternMismatch) {
         e.target.nextElementSibling.textContent = "Debe de poner un número que comienze por 6, 8, 9 de nueve cifras";
         error(e.target);
-        sendForm=false;
+        sendForm = false;
     } else {
         console.log("El telefono es correcto")
         e.target.nextElementSibling.textContent = "";
         correcto(e.target);
-        
+
     }
 
 }
@@ -476,7 +573,7 @@ function correcto(input) {
 function comprobar(e) {
     if (e.target.validity.valueMissing) {
         campoObligatorio(e.target);
-        sendForm=false;
+        sendForm = false;
     }
     else {
         e.target.nextElementSibling.textContent = "";
