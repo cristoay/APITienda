@@ -221,6 +221,33 @@ function cargarIdXhr(){
     xhr.send();
     
 }
+function postXhr(){
+    const xhr = new XMLHttpRequest();
+    var iNombre = document.getElementById("nombre").value;
+    var iDireccion = document.getElementById("direccion").value;
+    var iLocalidad = document.getElementById("localidad").value;
+    var iTelefono = document.getElementById("telefono").value;
+// listen for `load` event
+xhr.onload = () => {
+
+    // print JSON response
+    if (xhr.status >= 200 && xhr.status < 300) {
+        // parse JSON
+        //const response = JSON.parse(xhr.responseText);
+        //console.log(response);
+    }
+};
+var data = {nombreTienda: iNombre, direccion: iDireccion, localidad: iLocalidad, telefono: iTelefono};
+// create a JSON object
+
+
+xhr.open('POST', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/');
+
+xhr.setRequestHeader('Content-Type', 'application/json');
+
+xhr.send(JSON.stringify(data));
+cargarTodoXhr();
+}
 function loadAll() {
 
     crearMain();
@@ -259,6 +286,10 @@ function loadAll() {
             console.log("El formulario es correcto para enviar ");
             if(formaEnvio=="jquery"){
                 postJquery();
+                console.log("Post mediante jquery")
+            }else if (formaEnvio="xhr"){
+                postXhr();
+                console.log("Post mediante xhr");
             }
             
         }else{
